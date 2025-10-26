@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Planilha Motorista de App</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Planilha de Custos e Ganhos</h1>
+
+    <!-- Etapa Custos -->
+    <section id="etapaCustos" class="card">
+      <h2>Planilha de Custos</h2>
+
+      <label>Nome
+        <input type="text" id="nome" placeholder="Seu nome"/>
+      </label>
+
+      <label>Carro
+        <select id="tipoCarro" onchange="mostrarCamposCarro()">
+          <option value="">Selecione</option>
+          <option value="proprio">Próprio</option>
+          <option value="alugado">Alugado</option>
+        </select>
+      </label>
+
+      <!-- Campos para carro próprio -->
+      <div id="camposProprio" class="grupo" style="display:none;">
+        <label>Valor do Veículo
+          <input type="number" id="valorVeiculo" min="0" step="0.01" placeholder="Ex.: 45000"/>
+        </label>
+
+        <label>Valor da Parcela (mensal)
+          <input type="number" id="valorParcela" min="0" step="0.01" placeholder="Ex.: 1200"/>
+        </label>
+
+        <label>Valor do Seguro (anual ou total)
+          <input type="number" id="valorSeguro" min="0" step="0.01" placeholder="Ex.: 1800"/>
+        </label>
+
+        <label>Seguro parcelado?
+          <select id="seguroParcelado" onchange="mostrarParcelasSeguro()">
+            <option value="nao">Não (considerar mensalização padrão 12x)</option>
+            <option value="sim">Sim</option>
+          </select>
+        </label>
+
+        <div id="campoParcelasSeguro" style="display:none;">
+          <label>Quantidade de parcelas do seguro
+            <input type="number" id="parcelasSeguro" min="1" step="1" placeholder="Ex.: 12"/>
+          </label>
+        </div>
+      </div>
+
+      <!-- Campos para carro alugado -->
+      <div id="camposAlugado" class="grupo" style="display:none;">
+        <label>Valor do Aluguel (mensal)
+          <input type="number" id="valorAluguel" min="0" step="0.01" placeholder="Ex.: 2200"/>
+        </label>
+      </div>
+
+      <button class="btn" onclick="salvarCustos()">Salvar Custos</button>
+    </section>
+
+    <!-- Etapa Ganhos -->
+    <section id="etapaGanhos" class="card" style="display:none;">
+      <h2>Planilha de Ganhos</h2>
+
+      <label>Data
+        <input type="date" id="data"/>
+      </label>
+
+      <label>Aplicativo
+        <select id="aplicativo">
+          <option value="uber">Uber</option>
+          <option value="99">99</option>
+        </select>
+      </label>
+
+      <label>Ganhos Brutos do Dia
+        <input type="number" id="ganhosBrutos" min="0" step="0.01" placeholder="Ex.: 350"/>
+      </label>
+
+      <label>Alimentação do Dia
+        <input type="number" id="alimentacaoDia" min="0" step="0.01" placeholder="Ex.: 25"/>
+      </label>
+
+      <div class="acoes-linha">
+        <button class="btn" onclick="adicionarGanho()">Adicionar Ganho</button>
+        <button class="btn btn-danger" onclick="apagarTodosGanhos()">Apagar TODOS os ganhos</button>
+      </div>
+    </section>
+
+    <!-- Resumo de Ganhos (Tabela) -->
+    <section class="card">
+      <h2>Resumo de Ganhos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Aplicativo(s)</th>
+            <th>Ganhos Brutos</th>
+            <th>Combustível (20%)</th>
+            <th>Alimentação</th>
+            <th>Ganhos Líquidos (sem fixo)</th>
+            <th>Custo Fixo Diário</th>
+            <th>Saldo Final</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaGanhos"></tbody>
+      </table>
+    </section>
+
+    <!-- Resumo Mensal -->
+    <section id="resumoMensal" class="card"></section>
+
+    <!-- Gráfico -->
+    <section class="card">
+      <h2>Gráfico Semanal</h2>
+      <canvas id="graficoSemanal" height="220"></canvas>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
